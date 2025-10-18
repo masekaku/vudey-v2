@@ -1,42 +1,26 @@
-// Auto-playlist management
-document.addEventListener('DOMContentLoaded', async function() {
-    const playlistContainer = document.getElementById('playlist');
-    const videoPlayer = document.getElementById('video-player');
-    let currentIndex = 0;
+/**
+ * Populates the sponsor links and ad box.
+ * @param {object} data - The full data object from JSON.
+ */
+export function initAutoPlaylist(data) {
+  const { sponsors, ad } = data;
+  const sponsorContainer = document.getElementById('sponsor-links-container');
+  const adBox = document.getElementById('ad-space-box');
 
-    // Wait for videos to load
-    await window.dynamicPlayer.loadVideos();
-    const videos = window.dynamicPlayer.getVideos();
+  // Populate Sponsors
+  if (sponsorContainer && sponsors) {
+    sponsorContainer.innerHTML = sponsors.map(sponsor => `
+      <a href="${sponsor.url}" 
+         class="block w-full rounded-[12px] border-2 border-main bg-white p-[14px] text-center font-bold text-main shadow-2d transition-all duration-150 ease-in-out hover:-translate-y-[2px] hover:shadow-2d-hover">
+        ${sponsor.text}
+      </a>
+    `).join('');
+  }
 
-    // Render playlist
-    function renderPlaylist() {
-        playlistContainer.innerHTML = '';
-        videos.forEach((video, index) => {
-            const item = document.createElement('div');
-            item.className = `bg-white border-2 border-text rounded-[8px] shadow-soft p-3 flex items-center space-x-3 playlist-item ${index === currentIndex ? 'active' : ''}`;
-            item.innerHTML = `
-                <img src="${video.thumbnail}" alt="${video.title}" class="w-16 h-9 rounded">
-                <span class="text-sm font-medium">${video.title}</span>
-            `;
-            item.addEventListener('click', () => {
-                currentIndex = index;
-                window.dynamicPlayer.playVideo(video);
-                renderPlaylist(); // Update active state
-            });
-            playlistContainer.appendChild(item);
-        });
-    }
-
-    // Auto-play next video on end
-    videoPlayer.addEventListener('ended', function() {
-        currentIndex = (currentIndex + 1) % videos.length;
-        window.dynamicPlayer.playVideo(videos[currentIndex]);
-        renderPlaylist();
-    });
-
-    // Initial render and play first video
-    renderPlaylist();
-    if (videos.length > 0) {
-        window.dynamicPlayer.playVideo(videos[0]);
-    }
-});
+  // Populate Ad Box
+  if (adBox && ad) {
+    adBox.innerHTML = `
+      <span class="text-lg font-medium text-main/40">${ad.text}</span>
+    `;
+  }
+}
