@@ -1,0 +1,42 @@
+/* === Base Theme === */
+body {
+  background-color: #FAFAF3;
+  color: #292C30;
+  font-family: "Inter", sans-serif;
+}
+
+/* === Retro Shadows === */
+.retro-shadow-lg {
+  box-shadow: 6px 8px 0 #292C30;
+}
+
+.retro-shadow-md {
+  box-shadow: 4px 5px 0 #292C30;
+}
+
+.card-bg {
+  background-color: #fff;
+}
+
+/* === Gate Animation === */
+#gate-screen {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Player Styling === */
+video {
+  background: #000;
+  border: 4px solid #292C30;
+  border-radius: 0.75rem;
+}
+
+/* === Footer === */
+footer {
+  font-size: 0.875rem;
+  color: #979AA0;
+}
