@@ -3,72 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VidStream</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/style.css">
+    <title>VidStream - Minimal Video Portal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link href="./assets/output.css" rel="stylesheet">
+    
+    <script src="./js/main.js" type="module" defer></script>
 </head>
-<body>
-    <!-- Gate Screen (Pre-access Verification Layer) -->
-    <div id="gate-screen">
-        <div class="gate-inner">
-            <h1 class="text-2xl font-bold text-center">VidStream Access</h1>
-            <p class="text-sm text-center mt-4">Please verify your access to enter the site.</p>
-            <button id="enter-btn" class="bg-redish text-white px-6 py-3 rounded-md font-semibold mt-5">Enter Site</button>
-        </div>
-    </div>
+<body class="bg-base text-main antialiased">
 
-    <!-- Main Page Layout (after access) -->
-    <div id="main-content" class="hidden opacity-0 transition-opacity duration-500">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo-pill">VidStream</div>
-            <input type="text" placeholder="Search video..." class="border border-gray-300 rounded-md px-4 py-2 text-sm placeholder-grayish focus:outline-none">
-        </div>
-
-        <!-- Main Container -->
-        <div class="container">
-            <!-- Video Player Section -->
-            <div class="player-box">
-                <video id="video-player" controls poster="https://via.placeholder.com/800x450?text=Loading...">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-
-            <!-- Disclaimer -->
-            <div class="disclaimer">
-                <div class="icon">⚠️</div>
-                <p>Disclaimer: This content is for entertainment purposes only. Please ensure you are of legal age to view.</p>
-            </div>
-
-            <!-- Playlist Section (Vertical List) -->
-            <div id="playlist" class="flex flex-col w-full gap-3 mt-4">
-                <!-- Videos will be dynamically loaded here -->
-            </div>
-
-            <!-- Sponsor Buttons Section -->
-            <div class="sponsor-list">
-                <button class="sponsor-btn">Sponsor 1</button>
-                <button class="sponsor-btn">Sponsor 2</button>
-                <button class="sponsor-btn">Sponsor 3</button>
-            </div>
-
-            <!-- Ad Box -->
-            <div class="ad-box">
-                <span class="text-lg font-medium">Ad Space</span>
-            </div>
-
-            <!-- Footer -->
-            <div class="footer-pill">
-                © 2025 VidStream. All rights reserved.
+    <div id="gate-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/10 p-4 backdrop-blur-sm">
+        <div class="w-full max-w-[760px] rounded-[18px] border-4 border-main bg-base shadow-gate">
+            <div class="flex flex-col items-center space-y-[20px] p-8 md:p-12">
+                <h1 class="text-2xl font-bold text-main">
+                    VidStream Access
+                </h1>
+                <p class="text-[0.9rem] text-main/70">
+                    Your video is ready. Please click the button to enter.
+                </p>
+                <button id="enter-button" class="mt-2 rounded-lg bg-accent-yellow px-8 py-3 font-bold text-main shadow-2d transition-all duration-150 ease-in-out hover:-translate-y-[2px] hover:shadow-2d-hover focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-base">
+                    Enter Site
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="js/tailwind-config.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/gate-control.js"></script>
-    <script src="js/dynamic-player.js"></script>
-    <script src="js/auto-playlist.js"></script>
+    <div id="main-content" class="hidden max-w-[820px] mx-auto flex flex-col space-y-[20px] p-4 opacity-0">
+
+        <header class="relative w-full rounded-[10px] border-b-3 border-black/5 bg-base p-4 shadow-header">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="shrink-0 rounded-[10px] border-2 border-main bg-white px-4 py-2 shadow-2d">
+                    <span class="text-lg font-bold text-main">VidStream</span>
+                </div>
+                <div class="relative w-full min-w-48 flex-1">
+                    <input type="search" placeholder="Search video..." class="w-full rounded-md border-main/20 bg-white px-4 py-2 text-[0.9rem] placeholder:text-accent-gray focus:border-main focus:ring-1 focus:ring-main" />
+                </div>
+            </div>
+        </header>
+
+        <main class="flex flex-col space-y-[20px]">
+            <section id="video-player-frame" class="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-[16px] border-3 border-main bg-white">
+                <span class="text-xl font-medium text-main/40">Loading Player...</span>
+            </section>
+
+            <section class="rounded-[12px] border-3 border-main bg-white p-[14px] shadow-2d">
+                <div class="flex items-center space-x-3">
+                    <div class="shrink-0 text-accent-red">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
+                    </div>
+                    <p class="text-[0.9rem] font-medium text-main/80">
+                        Ads can be annoying, but they are the only way we keep the servers running. Your patience is appreciated!
+                    </p>
+                </div>
+            </section>
+
+            <section id="sponsor-links-container" class="flex flex-col space-y-3">
+                <div class="flex h-20 w-full animate-pulse items-center justify-center rounded-[12px] bg-gray-200">
+                    <span class="text-main/40">Loading Sponsors...</span>
+                </div>
+            </section>
+
+            <section class="flex w-full justify-center">
+                <div id="ad-space-box" class="flex h-[200px] w-full max-w-[420px] items-center justify-center rounded-[16px] border-3 border-main bg-white shadow-2d">
+                    <span class="text-lg font-medium text-main/40">Loading Ad...</span>
+                </div>
+            </section>
+        </main>
+
+        <footer class="flex w-full justify-center py-6">
+            <div class="inline-block rounded-[12px] border-2 border-main bg-white px-[14px] py-[10px] shadow-2d">
+                <p class="text-[0.9rem] font-medium text-main/80">
+                    © 2025 VidStream. All rights reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
+
 </body>
 </html>
