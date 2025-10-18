@@ -1,15 +1,14 @@
-{
-  "currentVideo": {
-    "id": "vid001",
-    "title": "Minimalism in Design",
-    "embedUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
-  },
-  "sponsors": [
-    { "text": "Awesome Sponsor One", "url": "#sponsor1" },
-    { "text": "The Best Sponsor Two", "url": "#sponsor2" },
-    { "text": "Just Another Sponsor", "url": "#sponsor3" }
-  ],
-  "ad": {
-    "text": "Ad Space (300x250)"
-  }
-}
+[
+    {
+        "id": 1,
+        "url": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+    },
+    {
+        "id": 2,
+        "url": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+    },
+    {
+        "id": 3,
+        "url": "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+    }
+]
