@@ -1,134 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OhBro.co - Modern Anti-Bot Video Player</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-    <style>
-        :root {
-            --bg-color: #FAFAF3;
-            --dark-color: #292C30;
-            --secondary-text: #979AA0;
-            --yellow-accent: #E1C941;
-            --red-accent: #DE4C4C;
-            --pink-accent: #EC848C;
-        }
-        
-        body {
-            background-color: var(--bg-color);
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .shadow-custom {
-            box-shadow: 6px 8px 0 var(--dark-color);
-        }
-        
-        .gate-screen {
-            transition: all 0.5s ease;
-        }
-        
-        .gate-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .player-container {
-            transition: all 0.5s ease;
-            opacity: 0;
-        }
-        
-        .player-container.visible {
-            opacity: 1;
-        }
-        
-        .btn-primary {
-            background-color: var(--yellow-accent);
-            color: var(--dark-color);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 4px 6px 0 var(--dark-color);
-        }
-        
-        .notice-box {
-            border: 2px solid var(--dark-color);
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ohbro.co — Video Player</title>
+
+  <!-- Tailwind CSS Config -->
+  <script src="js/tailwind-config.js"></script>
+  <script src="https://cdn.tailwindcss.com/4.1.0"></script>
+
+  <!-- Plyr CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/style.css">
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
-    <!-- Gate Screen -->
-    <div id="gateScreen" class="gate-screen fixed inset-0 z-50 flex items-center justify-center bg-[#FAFAF3]">
-        <div class="max-w-md w-full bg-[#FAFAF3] border-2 border-[#292C30] rounded-2xl p-8 shadow-custom">
-            <div class="text-center mb-6">
-                <h1 class="text-3xl font-bold text-[#292C30] mb-2">OhBro.co</h1>
-                <p class="text-[#979AA0]">Modern Anti-Bot Video Player</p>
-            </div>
-            
-            <div class="mb-6">
-                <p class="text-[#292C30] text-center mb-4">Click the button below to start watching videos. This helps us prevent automated access.</p>
-            </div>
-            
-            <button id="startWatching" class="btn-primary w-full py-3 px-4 rounded-xl font-bold text-lg shadow-custom border-2 border-[#292C30]">
-                Start Watching
-            </button>
-            
-            <div class="mt-6 text-center text-sm text-[#979AA0]">
-                <p>By clicking, you confirm you're a human viewer</p>
-            </div>
-        </div>
-    </div>
 
-    <!-- Main Content (initially hidden) -->
-    <div id="mainContent" class="player-container w-full max-w-4xl">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-[#292C30] mb-2">OhBro.co</h1>
-            <p class="text-[#979AA0]">Modern Anti-Bot Video Player</p>
-        </header>
+<body class="bg-base text-dark flex flex-col items-center justify-center min-h-screen">
+  <div id="app-root" class="w-full flex justify-center items-center p-4">
+    <!-- Gate screen or player will be injected here -->
+  </div>
 
-        <!-- Video Player Container -->
-        <div id="playerContainer" class="mb-6 rounded-2xl overflow-hidden shadow-custom border-2 border-[#292C30]">
-            <!-- Player will be injected here dynamically -->
-        </div>
-
-        <!-- Notice Box -->
-        <div class="notice-box bg-[#FAFAF3] rounded-xl p-4 mb-8">
-            <p class="text-center text-[#292C30]">
-                "Iklan mungkin menyebalkan, tetapi itu satu-satunya cara kami untuk menjaga server. Kesabaran Anda sangat kami hargai dan kami harap layanan kami sepadan dengan usaha Anda."
-            </p>
-        </div>
-
-        <!-- Playlist Info -->
-        <div id="playlistInfo" class="text-center text-[#979AA0]">
-            <p>Loading playlist...</p>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script>
-        // Tailwind Configuration
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'bg-primary': '#FAFAF3',
-                        'dark-primary': '#292C30',
-                        'text-secondary': '#979AA0',
-                        'accent-yellow': '#E1C941',
-                        'accent-red': '#DE4C4C',
-                        'accent-pink': '#EC848C'
-                    }
-                }
-            }
-        }
-    </script>
-    <script src="js/gate-control.js"></script>
-    <script src="js/player-inject.js"></script>
-    <script src="js/playlist-handler.js"></script>
-    <script src="js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
