@@ -1,3 +1,4 @@
+// Tailwind configuration (loaded before tailwind CDN)
 window.tailwind = {
   config: {
     theme: {
