@@ -1,27 +1,74 @@
-<!doctype html>
-<html lang="id">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ohbro.co — Video Player</title>
-
-  <!-- Tailwind config then CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/js/tailwind-config.js"></script>
-  <script src="https://cdn.tailwindcss.com/4.1.0"></script>
-
-  <!-- Plyr CSS (for optional nicer controls) -->
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="/assets/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
-<body class="bg-base text-dark min-h-screen">
+<body>
+    <!-- Gate Screen (Pre-access Verification Layer) -->
+    <div id="gate-screen">
+        <div class="gate-inner">
+            <h1 class="text-2xl font-bold text-center">VidStream Access</h1>
+            <p class="text-sm text-center mt-4">Please verify your access to enter the site.</p>
+            <button id="enter-btn" class="bg-redish text-white px-6 py-3 rounded-md font-semibold mt-5">Enter Site</button>
+        </div>
+    </div>
 
-  <!-- App root -->
-  <div id="app-root" class="min-h-screen flex items-start justify-center"></div>
+    <!-- Main Page Layout (after access) -->
+    <div id="main-content" class="hidden opacity-0 transition-opacity duration-500">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-pill">VidStream</div>
+            <input type="text" placeholder="Search video..." class="border border-gray-300 rounded-md px-4 py-2 text-sm placeholder-grayish focus:outline-none">
+        </div>
 
-  <!-- Main module orchestrator -->
-  <script type="module" src="/js/main.js"></script>
+        <!-- Main Container -->
+        <div class="container">
+            <!-- Video Player Section -->
+            <div class="player-box">
+                <video id="video-player" controls poster="https://via.placeholder.com/800x450?text=Loading...">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer">
+                <div class="icon">⚠️</div>
+                <p>Disclaimer: This content is for entertainment purposes only. Please ensure you are of legal age to view.</p>
+            </div>
+
+            <!-- Playlist Section (Vertical List) -->
+            <div id="playlist" class="flex flex-col w-full gap-3 mt-4">
+                <!-- Videos will be dynamically loaded here -->
+            </div>
+
+            <!-- Sponsor Buttons Section -->
+            <div class="sponsor-list">
+                <button class="sponsor-btn">Sponsor 1</button>
+                <button class="sponsor-btn">Sponsor 2</button>
+                <button class="sponsor-btn">Sponsor 3</button>
+            </div>
+
+            <!-- Ad Box -->
+            <div class="ad-box">
+                <span class="text-lg font-medium">Ad Space</span>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer-pill">
+                © 2025 VidStream. All rights reserved.
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/tailwind-config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/gate-control.js"></script>
+    <script src="js/dynamic-player.js"></script>
+    <script src="js/auto-playlist.js"></script>
 </body>
 </html>
