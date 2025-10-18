@@ -5,7 +5,7 @@ export function renderMain(root) {
     <div class="app-centered">
       <div class="container">
         <header class="header" role="banner">
-          <div class="logo-pill">Logo</div>
+          <div class="logo-pill">StremOkep</div>
           <button aria-label="menu" class="logo-pill" style="width:48px;height:48px;border-radius:10px;">☰</button>
         </header>
 
