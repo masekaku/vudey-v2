@@ -1,6 +1,5 @@
-// /js/auto-playlist.js
-
-// Options: { usePlyr: boolean } - jika true, inisialisasi Plyr
+// auto-playlist.js
+// Options: { usePlyr: boolean } - if true, will initialize Plyr for better controls
 export async function initAutoPlaylist(playerSelector = "#video-player", options = { usePlyr: false }) {
   const playerEl = document.querySelector(playerSelector);
   if (!playerEl) {
@@ -10,6 +9,7 @@ export async function initAutoPlaylist(playerSelector = "#video-player", options
 
   let plyrInstance = null;
   if (options.usePlyr) {
+    // load Plyr dynamically if not already loaded
     if (typeof Plyr === "undefined") {
       await loadScript("https://cdn.plyr.io/3.7.8/plyr.polyfilled.js");
     }
@@ -22,47 +22,57 @@ export async function initAutoPlaylist(playerSelector = "#video-player", options
   }
 
   try {
+    // fetch the playlist
     const res = await fetch("/data/videos.json");
     if (!res.ok) throw new Error("Failed HTTP " + res.status);
     const videos = await res.json();
-    if (!Array.isArray(videos) || videos.length === 0) throw new Error("videos.json is empty or invalid");
+    if (!Array.isArray(videos) || videos.length === 0) throw new Error("videos.json invalid or empty");
+
+    // get current ID from URL path (/v/xxx)
+    const currentPath = window.location.pathname;
+    const match = currentPath.match(/\/v\/([^\/]+)/);
+    let currentId = match ? match[1] : null;
 
     let idx = 0;
 
-    // base domain untuk video streaming
-    const BASE_URL = "https://vudey-v2.vercel.app/v/";
+    // find index if ID is present
+    if (currentId) {
+      const foundIndex = videos.findIndex(v => v.id === currentId);
+      if (foundIndex !== -1) idx = foundIndex;
+    }
 
     const loadIndex = (i) => {
       idx = i % videos.length;
+      const video = videos[idx];
 
-      // Bentuk URL dari ID
-      const videoUrl = videos[idx].url || `${BASE_URL}${videos[idx].id}`;
+      // update URL without reload
+      history.replaceState({}, "", `/v/${video.id}`);
 
       if (plyrInstance) {
         plyrInstance.source = {
-          type: "video",
-          sources: [{ src: videoUrl, type: "video/mp4" }]
+          type: 'video',
+          sources: [{ src: video.url, type: 'video/mp4' }]
         };
         plyrInstance.play().catch(() => {});
       } else {
-        playerEl.src = videoUrl;
+        playerEl.src = video.url;
         playerEl.play().catch(() => {});
       }
     };
 
-    // load pertama
+    // start first video
     loadIndex(idx);
 
-    // lanjut otomatis saat video berakhir
+    // go to next automatically
     const endedHandler = () => {
       idx = (idx + 1) % videos.length;
       loadIndex(idx);
     };
 
     if (plyrInstance) {
-      plyrInstance.on("ended", endedHandler);
+      plyrInstance.on('ended', endedHandler);
     } else {
-      playerEl.addEventListener("ended", endedHandler);
+      playerEl.addEventListener('ended', endedHandler);
     }
   } catch (err) {
     console.error("Auto playlist error:", err);
@@ -76,7 +86,7 @@ export async function initAutoPlaylist(playerSelector = "#video-player", options
   }
 }
 
-// helper load script eksternal
+// helper to load script dynamically
 function loadScript(src) {
   return new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) return resolve();
