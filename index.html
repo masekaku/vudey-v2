@@ -5,22 +5,121 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ohbro.co — Video Player</title>
 
-  <!-- Tailwind Config -->
-  <script src="/js/tailwind-config.js"></script>
-  <script src="https://cdn.tailwindcss.com/4.1.0"></script>
+  <!-- Tailwind via CDN (langsung aktif, tanpa config eksternal) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: '#FAFAF3',
+            dark: '#292C30',
+            grayish: '#979AA0',
+            redish: '#DE4C4C',
+            yellowish: '#E1C941',
+            pinkish: '#EC848C'
+          },
+          borderRadius: {
+            xl: '1rem',
+            '2xl': '1.5rem'
+          }
+        }
+      }
+    }
+  </script>
 
   <!-- Plyr CSS -->
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
 
   <!-- Custom Style -->
-  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body class="bg-base text-dark flex flex-col items-center justify-center min-h-screen">
   <div id="app-root" class="w-full flex justify-center items-center p-4">
-    <!-- Gate or Player will load here -->
+    <!-- Gate / Player akan muncul di sini -->
   </div>
 
-  <script src="/js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const appRoot = document.getElementById("app-root");
+      showGate(appRoot);
+    });
+
+    function showGate(root) {
+      root.innerHTML = `
+      <section id="gate-screen" class="flex flex-col justify-center items-center text-center w-full max-w-lg">
+        <div class="card-bg border-4 border-dark rounded-2xl p-8 retro-shadow-lg">
+          <h2 class="text-3xl font-extrabold mb-3">Continue to Video?</h2>
+          <p class="text-grayish mb-6">Your video is ready. Click below to start watching.</p>
+          <button id="start-btn" class="bg-yellowish hover:bg-pinkish transition text-dark font-semibold rounded-xl px-6 py-3 border-4 border-dark retro-shadow-md flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            Start Watching
+          </button>
+        </div>
+      </section>`;
+      document.getElementById("start-btn").addEventListener("click", () => {
+        root.innerHTML = "";
+        loadPlayer(root);
+      });
+    }
+
+    function loadPlayer(root) {
+      root.innerHTML = `
+      <main class="flex flex-col items-center px-4 pb-12 w-full">
+        <div class="w-full max-w-4xl my-8 rounded-xl overflow-hidden retro-shadow-lg">
+          <video id="player" controls playsinline crossorigin></video>
+        </div>
+        <div class="card-bg border-2 border-dark rounded-xl mt-6 p-5 max-w-2xl text-dark text-center text-sm">
+          Iklan mungkin menyebalkan, tetapi itu satu-satunya cara kami menjaga server tetap hidup.
+        </div>
+      </main>
+      <footer class="w-full text-center text-sm text-grayish py-6 border-t border-grayish/20">
+        © 2025 <span class="font-bold text-dark">ohbro.co</span> —
+        <a href="#" class="hover:text-pinkish">Protocol</a> |
+        <a href="#" class="hover:text-pinkish">Terms</a> |
+        <a href="#" class="hover:text-pinkish">Contact</a>
+      </footer>`;
+
+      const script = document.createElement("script");
+      script.src = "https://cdn.plyr.io/3.7.8/plyr.polyfilled.js";
+      script.onload = () => initPlaylist();
+      document.body.appendChild(script);
+    }
+
+    async function initPlaylist() {
+      try {
+        const res = await fetch("data/videos.json");
+        const videos = await res.json();
+
+        const player = new Plyr("#player", {
+          controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"]
+        });
+
+        let index = 0;
+        const playVideo = (i) => {
+          player.source = {
+            type: "video",
+            sources: [{ src: videos[i].url, type: "video/mp4" }]
+          };
+          player.play().catch(() => {});
+        };
+
+        playVideo(index);
+        player.on("ended", () => {
+          index = (index + 1) % videos.length;
+          playVideo(index);
+        });
+      } catch (err) {
+        console.error("Playlist load failed:", err);
+        document.getElementById("app-root").innerHTML = `
+          <div class="text-center text-redish font-semibold mt-12">
+            ⚠️ Gagal memuat video. Pastikan /data/videos.json tersedia.
+          </div>`;
+      }
+    }
+  </script>
 </body>
 </html>
