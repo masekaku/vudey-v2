@@ -1,21 +1,19 @@
-// Tailwind configuration (loaded before tailwind CDN)
-window.tailwind = {
-  config: {
+tailwind.config = {
     theme: {
-      extend: {
-        colors: {
-          base: '#FAFAF3',
-          dark: '#292C30',
-          grayish: '#979AA0',
-          redish: '#DE4C4C',
-          yellowish: '#E1C941',
-          pinkish: '#EC848C'
+        extend: {
+            fontFamily: {
+                sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+                base: '#FAFAF3',
+                text: '#292C30',
+                accent: {
+                    red: '#DE4C4C',
+                    yellow: '#E1C941',
+                    pink: '#EC848C',
+                    gray: '#979AA0',
+                },
+            },
         },
-        borderRadius: {
-          xl: '1rem',
-          '2xl': '1.5rem'
-        }
-      }
-    }
-  }
+    },
 };
