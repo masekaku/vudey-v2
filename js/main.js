@@ -1,4 +1,4 @@
-// entry orchestrator (ES module)
+// /js/main.js
 import { initGate } from "./gate-control.js";
 import { renderMain } from "./dynamic-player.js";
 import { initAutoPlaylist } from "./auto-playlist.js";
@@ -6,12 +6,12 @@ import { initAutoPlaylist } from "./auto-playlist.js";
 const root = document.getElementById("app-root");
 
 initGate(root, async () => {
-  // render main layout
+  // Render tampilan utama
   renderMain(root);
 
-  // small delay to ensure DOM nodes exist
-  await new Promise(r => setTimeout(r, 20));
+  // Tunggu DOM siap
+  await new Promise(r => setTimeout(r, 50));
 
-  // init sequential playlist with Plyr integration (optional)
+  // Jalankan playlist otomatis dengan dukungan Plyr
   initAutoPlaylist("#video-player", { usePlyr: true });
 });
