@@ -1,78 +1,42 @@
-// auto-playlist.js
-// Options: { usePlyr: boolean } - if true, will initialize Plyr for better controls
-export async function initAutoPlaylist(playerSelector = "#video-player", options = { usePlyr: false }) {
-  const playerEl = document.querySelector(playerSelector);
-  if (!playerEl) {
-    console.warn("Player element not found:", playerSelector);
-    return;
-  }
+// Auto-playlist management
+document.addEventListener('DOMContentLoaded', async function() {
+    const playlistContainer = document.getElementById('playlist');
+    const videoPlayer = document.getElementById('video-player');
+    let currentIndex = 0;
 
-  // optionally initialize Plyr if requested and if library available
-  let plyrInstance = null;
-  if (options.usePlyr) {
-    // load Plyr script dynamically if not loaded
-    if (typeof Plyr === "undefined") {
-      await loadScript("https://cdn.plyr.io/3.7.8/plyr.polyfilled.js");
+    // Wait for videos to load
+    await window.dynamicPlayer.loadVideos();
+    const videos = window.dynamicPlayer.getVideos();
+
+    // Render playlist
+    function renderPlaylist() {
+        playlistContainer.innerHTML = '';
+        videos.forEach((video, index) => {
+            const item = document.createElement('div');
+            item.className = `bg-white border-2 border-text rounded-[8px] shadow-soft p-3 flex items-center space-x-3 playlist-item ${index === currentIndex ? 'active' : ''}`;
+            item.innerHTML = `
+                <img src="${video.thumbnail}" alt="${video.title}" class="w-16 h-9 rounded">
+                <span class="text-sm font-medium">${video.title}</span>
+            `;
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                window.dynamicPlayer.playVideo(video);
+                renderPlaylist(); // Update active state
+            });
+            playlistContainer.appendChild(item);
+        });
     }
-    try { plyrInstance = new Plyr(playerEl); } catch(e){ console.warn("Plyr init failed", e); plyrInstance = null; }
-  }
 
-  try {
-    const res = await fetch("/data/videos.json");
-    if (!res.ok) throw new Error("Failed HTTP " + res.status);
-    const videos = await res.json();
-    if (!Array.isArray(videos) || videos.length === 0) throw new Error("videos.json is empty or invalid");
+    // Auto-play next video on end
+    videoPlayer.addEventListener('ended', function() {
+        currentIndex = (currentIndex + 1) % videos.length;
+        window.dynamicPlayer.playVideo(videos[currentIndex]);
+        renderPlaylist();
+    });
 
-    let idx = 0;
-
-    const loadIndex = (i) => {
-      idx = i % videos.length;
-      // set source
-      if (plyrInstance) {
-        plyrInstance.source = {
-          type: 'video',
-          sources: [{ src: videos[idx].url, type: 'video/mp4' }]
-        };
-        // attempted autoplay after user gesture
-        plyrInstance.play().catch(()=>{});
-      } else {
-        playerEl.src = videos[idx].url;
-        playerEl.play().catch(()=>{});
-      }
-    };
-
-    loadIndex(idx);
-
-    const endedHandler = () => {
-      idx = (idx + 1) % videos.length;
-      loadIndex(idx);
-    };
-
-    if (plyrInstance) {
-      plyrInstance.on('ended', endedHandler);
-    } else {
-      playerEl.addEventListener('ended', endedHandler);
+    // Initial render and play first video
+    renderPlaylist();
+    if (videos.length > 0) {
+        window.dynamicPlayer.playVideo(videos[0]);
     }
-  } catch (err) {
-    console.error("Auto playlist error:", err);
-    const container = document.querySelector(".container") || document.body;
-    const msg = document.createElement("div");
-    msg.style.color = "var(--redish)";
-    msg.style.marginTop = "18px";
-    msg.style.fontWeight = "700";
-    msg.textContent = "⚠️ Failed to load playlist. Check /data/videos.json";
-    container.appendChild(msg);
-  }
-}
-
-// small helper to load script dynamically
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) return resolve();
-    const s = document.createElement('script');
-    s.src = src;
-    s.onload = () => resolve();
-    s.onerror = (e) => reject(e);
-    document.head.appendChild(s);
-  });
-}
+});
