@@ -1,3 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+      /* Applying base styles from the palette */
+      body {
+        background-color: #FAFAF3;
+        color: #292C30;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
