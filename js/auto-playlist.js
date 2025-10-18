@@ -30,7 +30,7 @@ export async function initAutoPlaylist(playerSelector = "#video-player", options
     let idx = 0;
 
     // base domain untuk video streaming
-    const BASE_URL = "https://example.com/v/";
+    const BASE_URL = "https://vudey-v2.vercel.app/v/";
 
     const loadIndex = (i) => {
       idx = i % videos.length;
