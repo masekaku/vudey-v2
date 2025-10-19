@@ -15,4 +15,7 @@ initGate(root, async () => {
 
   // Jalankan playlist otomatis dengan dukungan Plyr
   initAutoPlaylist("#video-player", { usePlyr: true });
+
+  // 🔥 Tambahkan pemanggilan UI global setelah semuanya siap
+  initVidostUI(root);
 });
