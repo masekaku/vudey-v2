@@ -2,6 +2,7 @@
 import { initGate } from "./gate-control.js";
 import { renderMain } from "./dynamic-player.js";
 import { initAutoPlaylist } from "./auto-playlist.js";
+import { initVidostUI } from "../vidost/lol.js";
 
 const root = document.getElementById("app-root");
 
