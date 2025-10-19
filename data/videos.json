@@ -1,14 +1,5 @@
 [
-    {
-        "id": 1,
-        "url": "https://qu.ax/SpCCa.mov"
-    },
-    {
-        "id": 2,
-        "url": "https://qu.ax/dqehS.mov"
-    },
-    {
-        "id": 3,
-        "url": "https://qu.ax/WkTAo.mov"
-    }
+  { "id": "v1", "url": "https://qu.ax/SpCCa.mov" },
+  { "id": "v2", "url": "https://qu.ax/dqehS.mov" },
+  { "id": "v3", "url": "https://qu.ax/WkTAo.mov" }
 ]
