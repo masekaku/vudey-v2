@@ -42,7 +42,7 @@ export function renderMain(root) {
 
         <!-- Footer -->
 <footer class="mt-6 py-4 text-xs text-[color:var(--grayish)] text-center">
-  © 2025 <span class="font-semibold">ohbro.co</span> — 
+  © 2025 <span class="font-semibold">VidOst</span> — 
   <a href="https://vid.ost.web.id/protocol" class="hover:underline hover:text-[color:var(--ink2)] transition">Protocol</a> | 
   <a href="https://vid.ost.web.id/terms" class="hover:underline hover:text-[color:var(--ink2)] transition">Terms</a> | 
   <a href="https://vid.ost.web.id/contact" class="hover:underline hover:text-[color:var(--ink2)] transition">Contact</a>
