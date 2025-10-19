@@ -2,8 +2,8 @@
   "rewrites": [
     { "source": "/v/:id", "destination": "/" },
 
-    { "source": "/company/protocol", "destination": "/company/protocol.html" },
-    { "source": "/company/terms", "destination": "/company/terms.html" },
-    { "source": "/company/contact", "destination": "/company/contact.html" }
+    { "source": "/protocol", "destination": "/company/protocol.html" },
+    { "source": "/terms", "destination": "/company/terms.html" },
+    { "source": "/contact", "destination": "/company/contact.html" }
   ]
 }
