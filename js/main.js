@@ -3,7 +3,8 @@ import { initGate } from "./gate-control.js";
 import { renderMain } from "./dynamic-player.js";
 import { initAutoPlaylist } from "./auto-playlist.js";
 import { initVidostUI } from "../vidost/lol.js";
-import { injectVideoAd } from "../rafi/ahmad.js"; // ✅ tambahan baru
+import { injectHeadAd } from "../rafi/ahmad.js";
+injectHeadAd(); // jalankan langsung, sebelum gate dan render apapun
 
 const root = document.getElementById("app-root");
 
