@@ -1,11 +1,7 @@
 // /js/gate-control.js
 export function initGate(root, onAccepted) {
-  // cek apakah sudah pernah diterima
-  const accepted = localStorage.getItem("vidost_gate_ok") === "1";
-  if (accepted) {
-    onAccepted();
-    return;
-  }
+  // 🚫 Tidak pakai localStorage — gate akan selalu muncul setiap kali
+  const accepted = false;
 
   // render gate + iklan
   root.innerHTML = `
