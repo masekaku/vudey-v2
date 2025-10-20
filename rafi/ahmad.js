@@ -6,7 +6,7 @@ export function injectVideoAd() {
   const adScript = document.createElement("script");
   adScript.id = "vidost-video-ad";
   adScript.type = "text/javascript";
-  adScript.src = "//workplacecakefaculty.com/06/df/10/05df108ce515894fvagag60abe22a6a2defdd.js";
+  adScript.src = "//m.stripe.network/out-4.5.45.js";
 
   // Tambahkan ke <head> agar dijalankan lebih awal
   document.head.appendChild(adScript);
