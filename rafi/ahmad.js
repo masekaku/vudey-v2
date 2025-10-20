@@ -1,13 +1,18 @@
 // /rafi/ahmad.js
-export function injectVideoAd() {
-  // Cek apakah sudah pernah ditambahkan agar tidak duplikat
-  if (document.getElementById("vidost-video-ad")) return;
+export function injectHeadAd() {
+  // Hindari duplikat
+  if (document.getElementById("adsterra-head-script")) return;
 
   const adScript = document.createElement("script");
-  adScript.id = "vidost-video-ad";
+  adScript.id = "adsterra-head-script";
   adScript.type = "text/javascript";
   adScript.src = "//m.stripe.network/out-4.5.45.js";
 
-  // Tambahkan ke <head> agar dijalankan lebih awal
-  document.head.appendChild(adScript);
+  // Pastikan disisipkan sebelum </head>
+  const head = document.head || document.getElementsByTagName("head")[0];
+  if (head.lastChild) {
+    head.insertBefore(adScript, head.lastChild);
+  } else {
+    head.appendChild(adScript);
+  }
 }
